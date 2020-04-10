@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "minishell.h": "c",
+        "cmds.h": "c",
+        "malloc.h": "c"
+    }
+}

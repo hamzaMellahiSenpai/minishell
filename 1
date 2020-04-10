@@ -1,0 +1,1000 @@
+  393  cd CUB
+  394  cd CUBE/
+  395  fish
+  396  make
+  397  cd CUBE/
+  398  make
+  399  fish
+  400  apt-get install nasm
+  401  sudo apt-get install nasm
+  402  1973azer
+  403  sudo apt-get install nasm
+  404  clear
+  405  vi d.c
+  406  clear
+  407  echo "#include<stdio.h>
+  408   
+  409  void main() {
+  410   
+  411     int a = 3, b = 3, c;
+  412   
+  413     asm {
+  414        mov ax,a
+  415        mov bx,b
+  416        add ax,bx
+  417        mov c,ax
+  418     }
+  419   
+  420     printf("%d", c);
+  421  }" >> d.c
+  422  vi d.c 
+  423  gcc d.c 
+  424  vi d.c 
+  425  gcc d.c 
+  426  less d.c 
+  427  vi d.c 
+  428  gcc d.c 
+  429  vi d.c 
+  430  gcc d.c 
+  431  vi d.c 
+  432  gcc d.c 
+  433  vi d.c 
+  434  gcc d.c 
+  435  vi d.c 
+  436  gcc d.c 
+  437  pwd
+  438  ls
+  439  mkdir libasm
+  440  cd libasm/
+  441  vi hello.asm
+  442  echo " global    _start
+  443            section   .text
+  444  _start:   mov       rax, 1                  ; system call for write
+  445            mov       rdi, 1                  ; file handle 1 is stdout
+  446            mov       rsi, message            ; address of string to output
+  447            mov       rdx, 13                 ; number of bytes
+  448            syscall                           ; invoke operating system to do the write
+  449            mov       rax, 60                 ; system call for exit
+  450            xor       rdi, rdi                ; exit code 0
+  451            syscall                           ; invoke operating system to exit
+  452            section   .data
+  453  message:  db        "Hello, World", 10      ; note the newline at the end" >> hello.asm
+  454  vi hello.asm 
+  455  clear
+  456  nasm -felf64 hello.asm && ld hello.o && ./a.out
+  457  ls
+  458  nasm -felf64 hello.asm 
+  459  cat hello.asm 
+  460  vi hello.asm 
+  461  clear
+  462  nasm -felf64 hello.asm 
+  463  nasm -felf64 hello.asm && ld hello.o && ./a.out
+  464  vi traingle.asm
+  465  echo "global    start
+  466            section   .text
+  467  start:
+  468            mov       rdx, output             ; rdx holds address of next byte to write
+  469            mov       r8, 1                   ; initial line length
+  470            mov       r9, 0                   ; number of stars written on line so far
+  471  line:
+  472            mov       byte [rdx], '*'         ; write single star
+  473            inc       rdx                     ; advance pointer to next cell to write
+  474            inc       r9                      ; "count" number so far on line
+  475            cmp       r9, r8                  ; did we reach the number of stars for this line?
+  476            jne       line                    ; not yet, keep writing on this line
+  477  lineDone:
+  478            mov       byte [rdx], 10          ; write a new line char
+  479            inc       rdx                     ; and move pointer to where next char goes
+  480            inc       r8                      ; next line will be one char longer
+  481            mov       r9, 0                   ; reset count of stars written on this line
+  482            cmp       r8, maxlines            ; wait, did we already finish the last line?
+  483            jng       line                    ; if not, begin writing this line
+  484  done:
+  485            mov       rax, 0x02000004         ; system call for write
+  486            mov       rdi, 1                  ; file handle 1 is stdout
+  487            mov       rsi, output             ; address of string to output
+  488            mov       rdx, dataSize           ; number of bytes
+  489            syscall                           ; invoke operating system to do the write
+  490            mov       rax, 0x02000001         ; system call for exit
+  491            xor       rdi, rdi                ; exit code 0
+  492            syscall                           ; invoke operating system to exit
+  493            section   .bss
+  494  maxlines  equ       8
+  495  dataSize  equ       44
+  496  output:   resb      dataSize " >> tr.asm
+  497  nasm -felf64 tr.asm && ld tr.o && ./a.out
+  498  clear
+  499  ls
+  500  cat tr.asm 
+  501  ld tr.o
+  502  vi tr.asm 
+  503  ld tr.o
+  504  nasm -felf64 tr.asm && ld tr.o && ./a.out
+  505  clear
+  506  vi puts.asm
+  507  touch puts.asm
+  508  echo "global    main
+  509            extern    puts
+  510            section   .text
+  511  main:                                       ; This is called by the C library startup code
+  512            mov       rdi, message            ; First integer (or pointer) argument in rdi
+  513            call      puts                    ; puts(message)
+  514            ret                               ; Return from main back into C library wrapper
+  515  message:
+  516            db        "Hola, mundo", 0        ; Note strings must be terminated with 0 in C:" >> puts.asm
+  517  nasm -felf64 puts.asm && ld puts.o && ./a.out
+  518  vi puts.asm 
+  519  nasm -felf64 puts.asm && ld puts.o && ./a.out
+  520  nasm -felf64 puts.asm  
+  521  ld puts.o
+  522  vi puts.asm
+  523  ld puts.o
+  524  nasm -felf64 puts.asm  
+  525  ld puts.o
+  526  gcc hola.o
+  527  gcc puts.o
+  528  vi puts.asm 
+  529  cp puts.asm puts2.asm
+  530  vi puts.asm 
+  531  nasm -felf64 puts.asm  
+  532  gcc puts.o
+  533  ./a.out 
+  534  vi puts.asm 
+  535  uname -m
+  536  vi puts.asm 
+  537  nasm -felf64 puts.asm  
+  538  vi puts.asm 
+  539  nasm -felf64 puts.asm  
+  540  vi puts.asm 
+  541  echo "       global  main
+  542          extern  printf
+  543          section .text
+  544  main:
+  545          push    rbx                     ; we have to save this since we use it
+  546          mov     ecx, 90                 ; ecx will countdown to 0
+  547          xor     rax, rax                ; rax will hold the current number
+  548          xor     rbx, rbx                ; rbx will hold the next number
+  549          inc     rbx                     ; rbx is originally 1
+  550  print:
+  551          ; We need to call printf, but we are using rax, rbx, and rcx.  printf
+  552          ; may destroy rax and rcx so we will save these before the call and
+  553          ; restore them afterwards.
+  554          push    rax                     ; caller-save register
+  555          push    rcx                     ; caller-save register
+  556          mov     rdi, format             ; set 1st parameter (format)
+  557          mov     rsi, rax                ; set 2nd parameter (current_number)
+  558          xor     rax, rax                ; because printf is varargs
+  559          ; Stack is already aligned because we pushed three 8 byte registers
+  560          call    printf                  ; printf(format, current_number)
+  561          pop     rcx                     ; restore caller-save register
+  562          pop     rax                     ; restore caller-save register
+  563          mov     rdx, rax                ; save the current number
+  564          mov     rax, rbx                ; next number is now current
+  565          add     rbx, rdx                ; get the new next number
+  566          dec     ecx                     ; count down
+  567          jnz     print                   ; if not done counting, do some more
+  568          pop     rbx                     ; restore rbx before returning
+  569          ret
+  570  format:
+  571          db  "%20ld", 10, 0" >> fib.asm
+  572  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  573  vi fib.asm 
+  574  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  575  vi fib.asm 
+  576  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  577  vi fib.asm 
+  578  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  579  nasm -felf64 fib.asm 
+  580  ld fib.o
+  581  gcc fib.
+  582  gcc fib.o
+  583  vi fib.asm 
+  584  gcc fib.o
+  585  sublivim
+  586  cd ..
+  587  curl http://install.sublivim.com
+  588  curl
+  589  curl "http://install.sublivim.com"
+  590  curl https://raw.githubusercontent.com/reversTeam/Sublivim/master/installer.sh | sh
+  591  ls
+  592  sublivim
+  593  cd libasm/
+  594  vim fib.asm 
+  595  cd ..
+  596  vim libasm/
+  597  clear
+  598  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  599  ls
+  600  cd libasm/
+  601  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  602  vi fib.asm 
+  603  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  604  vi fib.asm 
+  605  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  606  vi fib.asm 
+  607  nasm -felf64 fib.asm && gcc fib.o && ./a.out
+  608  vi fib.asm 
+  609  vi maxofthree.asm
+  610  echo "global  maxofthree
+  611          section .text
+  612  maxofthree:
+  613          mov     rax, rdi                ; result (rax) initially holds x
+  614          cmp     rax, rsi                ; is x less than y?
+  615          cmovl   rax, rsi                ; if so, set result to y
+  616          cmp     rax, rdx                ; is max(x,y) less than z?
+  617          cmovl   rax, rdx                ; if so, set result to z
+  618          ret                             ; the max will be in rax">> maxof3.asm
+  619  vi maxof3.asm 
+  620  vi main.c
+  621  echo "#include <stdio.h>
+  622  #include <inttypes.h>
+  623  int64_t maxofthree(int64_t, int64_t, int64_t);
+  624  int main() {
+  625      printf("%ld\n", maxofthree(1, -4, -7));
+  626      printf("%ld\n", maxofthree(2, -6, 1));
+  627      printf("%ld\n", maxofthree(2, 3, 1));
+  628      printf("%ld\n", maxofthree(-2, 4, 3));
+  629      printf("%ld\n", maxofthree(2, -6, 5));
+  630      printf("%ld\n", maxofthree(2, 4, 6));
+  631      return 0;
+  632  }" >> main.c
+  633  fish
+  634  cd libasm/
+  635  ls
+  636  fish
+  637  git clone https://github.com/gaelreyrol/Norme-C
+  638  cd Norme-C/
+  639  ls
+  640  make
+  641  vi Makefile 
+  642  make
+  643  clear.
+  644  clear
+  645  ./norme src/main.c 
+  646  vi src/main.c 
+  647  ./norme src/main.c 
+  648  vi src/main.c 
+  649  ./norme src/main.c 
+  650  vi src/main.c 
+  651  vim .vimrc
+  652  vim /.vimrc
+  653  vim ~/.vimrc
+  654  vim /.vimrc
+  655  cd CUBE/
+  656  ls
+  657  leaks a.out
+  658  sudo apt-get install leaks
+  659  clear
+  660  lldb
+  661  clear
+  662  fish
+  663  cd CUBE/
+  664  fisj
+  665  fish
+  666  cd De
+  667  pwd
+  668  ls
+  669  cd Cube2
+  670  cd CUBE/
+  671  fish
+  672  cd libasm/
+  673  ls
+  674  cd /
+  675  fish
+  676  cd ll/
+  677  ls
+  678  clear
+  679  fish
+  680  cd /mnt/
+  681  cd C:\Users\Anonymos\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\senpai\libasm
+  682  ls
+  683  cd c
+  684  cd \Users\Anonymos\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\senpai\libasm
+  685  cd /Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm
+  686  ls
+  687  cd Users/Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm
+  688  cd Users/Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm sudo
+  689  sudo cd Users/Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm sudo
+  690  sudo cd Users/Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm 
+  691  sudo cd Users/Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm
+  692  cd Users/Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm sudo
+  693  cd Users/Anonymos/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/senpai/libasm 
+  694  cd ../
+  695  pwd
+  696  cd ..
+  697  cd home/senpai/
+  698  ls
+  699  cd libasm/
+  700  cat c.sh 
+  701  nasm -felf64 test.s 
+  702  nasm -felf64 test.asm
+  703  ls
+  704  touch test.s
+  705  cat test.s 
+  706  sudo cat test.s 
+  707  nasm -felf64 test.s
+  708  ls
+  709  cat test.s 
+  710  sudo nasm -felf64 test.s
+  711  clear
+  712  make
+  713  cd ../CUBE/
+  714  make
+  715  fish
+  716  ls
+  717  cd ll
+  718  fish
+  719  cd c++Pool/
+  720  ls
+  721  cd day00
+  722  cd day01
+  723  su sudo 
+  724  sudo su
+  725  fish
+  726  cd libasm/
+  727  ls
+  728  cat ft_read.asm
+  729  clear
+  730  ls
+  731  man 2 read
+  732  cp CUBE/includes/ ../mnt/c/Users/Anonymos/Desktop
+  733  pwd
+  734  cp CUBE/includes/ ../../mnt/c/Users/Anonymos/Desktop
+  735  cp -r CUBE/includes/ ../../mnt/c/Users/Anonymos/Desktop
+  736  pwd
+  737  cd /
+  738  cd mnt/
+  739  ls
+  740  cd c/
+  741  ls
+  742  cd c/Users/Anonymos/Desktop/c++Pool
+  743  cd Users/Anonymos/Desktop/c++Pool
+  744  ls
+  745  ls day00/ex01/
+  746  cd day00/ex01
+  747  g++ phonebook.cpp Contact.class.cpp PhoneBook.class.cpp 
+  748  ./a.out 
+  749  clear
+  750  g++ phonebook.cpp Contact.class.cpp PhoneBook.class.cpp 
+  751  cd ../../
+  752  git clone https://github.com/ncoden/42_CPP_pool 32
+  753  cd day00
+  754  g++ c.cpp 
+  755  ./a.out 
+  756  g++ c.cpp 
+  757  ./a.out 
+  758  clear
+  759  g++ c.cpp 
+  760  cd ..
+  761  ls
+  762  cd c++Pool/
+  763  ls
+  764  cd day01
+  765  ls
+  766  cd ex01/
+  767  touch void memoryLeak()
+  768  { std::string* panther = new std::string("String panther");
+  769  std::cout << *panther << std::endl;
+  770  touch ex01.cpp
+  771  cd ..
+  772  ls
+  773  clear
+  774  cd ex04
+  775  ls
+  776  g++ ex04.cpp 
+  777  ./a.out 
+  778  g++ ex04.cpp 
+  779  ./a.out 
+  780  g++ ex04.cpp 
+  781  ./a.out 
+  782  cd ..
+  783  mkdir ex05
+  784  cd ex05
+  785  ls
+  786  touch : Brain.cpp Brain.hpp Human.cpp Human.hpp main.cpp
+  787  ls
+  788  rm :
+  789  ls
+  790  git clone https://github.com/mel-haya/minishell
+  791  cd minishell/
+  792  ls
+  793  touch test
+  794  echo "a fin a tbi" >> test
+  795  ls
+  796  git init
+  797  git commit -m "init"
+  798  git add .
+  799  git commit -m "init"
+  800  git push origin master
+  801  cat test 
+  802  ls
+  803  cd ..
+  804  git clone https://github.com/mel-haya/minishell
+  805  git clone https://github.com/mel-haya/minishelld
+  806  git clone https://github.com/mel-haya/minishell lld
+  807  cd lld/
+  808  ls
+  809  cd ../../../
+  810  cd. .
+  811  cd ..
+  812  ls
+  813  pwd
+  814  ls
+  815  mv includes/ minishell/
+  816  cd minishell/
+  817  ls
+  818  cd includes/
+  819  ls
+  820  clear
+  821  vi ft_split.c 
+  822  clear
+  823  ls
+  824  mv ft_split.c split.c 
+  825  vi get_next_line.c 
+  826  clear
+  827  ls
+  828  mv get_next_line.c  read_line.c 
+  829  ls
+  830  cd ..
+  831  sudo su
+  832  ls
+  833  cd minilibx_linux/
+  834  ls
+  835  cd ..
+  836  clear
+  837  make
+  838  clear
+  839  ls
+  840  cd CUBE/
+  841  ls
+  842  cat push.sh 
+  843  clear
+  844  ls
+  845  cd CUBE
+  846  cat includes/lst.c 
+  847  >
+  848  env > 1
+  849  cat 1
+  850  rm 1
+  851  cat 1
+  852  env > 1 2
+  853  touch 2
+  854  cat 2
+  855  touch 2
+  856  env > 1 2
+  857  echo "hello" > 2
+  858  cat 2
+  859  ls
+  860  echo "hello" > 2 2
+  861  echo "hello" > 2 4
+  862  cat 4
+  863  ?
+  864  $?
+  865  $x
+  866  env
+  867  export $x
+  868  $x
+  869  echo $x
+  870  export x=4
+  871  echo $x
+  872  $x
+  873  echo "$$"
+  874  env
+  875  less env
+  876  env | less
+  877  clear
+  878  echo "$$"
+  879  echo "$$d"
+  880  echo "$x$"
+  881  env
+  882  export x=4
+  883  echo "$x$"
+  884  echo "$x$x"
+  885  echo "$$"
+  886  cp -r CUBE/errors.c ../../mnt/c/Users/Anonymos/Desktop/minishell/
+  887  cp -r CUBE/header.h ../../mnt/c/Users/Anonymos/Desktop/minishell/ll
+  888  g++ --version
+  889  pwd
+  890  cd pwd
+  891  pwd
+  892  cd C:\Users\Anonymos\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\senpai\minilibx_linux
+  893  pwd
+  894  cd ../../
+  895  cd mnt/
+  896  cd C:\Users\Anonymos\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\senpai\minilibx_linux
+  897  cd c\Users\Anonymos\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\senpai\minilibx_linux
+  898  cd c\Users\Anonymos\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\senpai\
+  899  cd c\Users\Anonymos\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\senpai
+  900  ls
+  901  cd c
+  902  ls
+  903  cd Users/Anonymos/Desktop/
+  904  ls
+  905  cd minishell/
+  906  ls
+  907  make
+  908  ./a.out 
+  909  make
+  910  pwd
+  911  cd ../../mnt/
+  912  ls
+  913  cd c\Users\Anonymos\Desktop\minishell
+  914  cd c/Users/Anonymos/Desktop/minishell
+  915  ls
+  916  pwd
+  917  make
+  918  ./a.out 
+  919  exec ./a.out 
+  920  bash
+  921  cd ../..//mnt/c/Users/Anonymos/Desktop/minishell
+  922  ls
+  923  vi c.c
+  924  sh
+  925  bash
+  926  cd ../..//mnt/c/Users/Anonymos/Desktop/minishell
+  927  ls
+  928  clear
+  929  gcc c.c 
+  930  vi c.c 
+  931  gcc c.c 
+  932  ./a.out 
+  933  vi c.c 
+  934  gcc c.c 
+  935  ./a.out 
+  936  make
+  937  sh push.sh 
+  938  ls
+  939  git clone signal(sig, SIG_IGN);
+  940  clear
+  941  gcc c.c
+  942  ./a.out 
+  943  gcc c.c
+  944  ./a.out 
+  945  gcc c.c
+  946  ./a.out 
+  947  sh
+  948  cat CUBE/save.c 
+  949  ls
+  950  cd ../../mnt/c/Users/Anonymos/Desktop/minishell
+  951  make
+  952  mv c.c ..
+  953  make
+  954  clear
+  955  ./a.out 
+  956  clear
+  957  make
+  958  ./a.out 
+  959  make
+  960  sh push.sh 
+  961  rm -rf test/
+  962  rm -rf .vscode/
+  963  sh push.sh 
+  964  make
+  965  ./a.out 
+  966  clear
+  967  make
+  968  ./a.out 
+  969  clear
+  970  make
+  971  ./a.out 
+  972  sh push.sh 
+  973  make
+  974  ./a.out 
+  975  git pull
+  976  ;s
+  977  ls
+  978  ls includes/
+  979  sh
+  980  make
+  981  ./a.out 
+  982  make
+  983  ./a.out 
+  984  make
+  985  ./a.out 
+  986  make
+  987  ./a.out 
+  988  clear
+  989  ./a.out 
+  990  clear
+  991  make
+  992  ./a.out 
+  993  sh
+  994  ./a.out 
+  995  clear
+  996  make
+  997  ./a.out 
+  998  make
+  999  ./a.out 
+ 1000  make
+ 1001  ./a.out 
+ 1002  cat abcd^D
+ 1003  cat main.c^D
+ 1004  cat main.c ^D
+ 1005  cat event_handler.c push.sh 
+ 1006  clear
+ 1007  make
+ 1008  ./a.out 
+ 1009  clear
+ 1010  make
+ 1011  ./a.out 
+ 1012  make
+ 1013  ./a.out 
+ 1014  make
+ 1015  ./a.out 
+ 1016  make
+ 1017  ./A
+ 1018  ./a.out 
+ 1019  ./A
+ 1020  make
+ 1021  ./a.out 
+ 1022  clear
+ 1023  ./a.out 
+ 1024  clear
+ 1025  ./a.out 
+ 1026  cat ../c.c 
+ 1027  mv ../c.c .
+ 1028  ./a.out 
+ 1029  clear
+ 1030  ./a.out 
+ 1031  gcc c.c
+ 1032  echo "dd
+ 1033  git pull
+ 1034  ls
+ 1035  git pull
+ 1036  ls
+ 1037  vi header.h
+ 1038  ls
+ 1039  make
+ 1040  mv c.c ../
+ 1041  make
+ 1042  ./a.out 
+ 1043  make
+ 1044  ./a.out 
+ 1045  make
+ 1046  ./a.out 
+ 1047  make
+ 1048  ./a.out 
+ 1049  make
+ 1050  ./a.out 
+ 1051  make
+ 1052  ./a.out 
+ 1053  env
+ 1054  ./a.out 
+ 1055  env
+ 1056  make
+ 1057  ./a.out 
+ 1058  env | less
+ 1059  make
+ 1060  ./a.out 
+ 1061  make
+ 1062  ./a.out 
+ 1063  env
+ 1064  ./a.out 
+ 1065  env | less
+ 1066  clear
+ 1067  make
+ 1068  ./a.out 
+ 1069  make
+ 1070  ./a.out 
+ 1071  ls
+ 1072  make
+ 1073  ./a.out 
+ 1074  echo "he" > 1
+ 1075  cat 1
+ 1076  pwd > 1
+ 1077  cat 1
+ 1078  pwd > 
+ 1079  pwd > 1
+ 1080  pwd > 1 2
+ 1081  cat 2
+ 1082  clear
+ 1083  make
+ 1084  ./a.out 
+ 1085  make
+ 1086  ./a.out 
+ 1087  cat 1
+ 1088  clear
+ 1089  make
+ 1090  ./a.out 
+ 1091  cat 1
+ 1092  clear
+ 1093  cat 1 > 2
+ 1094  ls
+ 1095  cat 2
+ 1096  rm -rf 2 1
+ 1097  ls
+ 1098  pwd > 1 2
+ 1099  ls
+ 1100  cat 1
+ 1101  pwd >
+ 1102  pwd > 1 > 2
+ 1103  ls
+ 1104  cat 1
+ 1105  cat 2
+ 1106  rm -rf 1 2
+ 1107  pwd > 1 > 2
+ 1108  ls
+ 1109  cat 1
+ 1110  cat 2
+ 1111  echo dd > pwd > 1
+ 1112  ls
+ 1113  cat 1
+ 1114  make
+ 1115  ./a.out 
+ 1116  make
+ 1117  ./a.out 
+ 1118  make
+ 1119  ./a.out 
+ 1120  make
+ 1121  ./a.out 
+ 1122  make
+ 1123  ./a.out 
+ 1124  make
+ 1125  clear
+ 1126  make
+ 1127  export d=d sdadsa
+ 1128  env
+ 1129  export d=d sdadsa
+ 1130  env
+ 1131  export d=d=c
+ 1132  env
+ 1133  export x=d
+ 1134  env
+ 1135  export x=dddddddddddddddddddddd dd
+ 1136  env
+ 1137  export x=dddddddddddddddddddddd=d dd
+ 1138  env
+ 1139  clear
+ 1140  ls
+ 1141  cd maths
+ 1142  ls
+ 1143  cd CUBE/
+ 1144  less maths.c 
+ 1145  ls
+ 1146  less physics/rendering.c 
+ 1147  less physics/ray.c 
+ 1148  make
+ 1149  echo "hhh" > pwd > 1
+ 1150  cat 1
+ 1151  echo "hhh" > echo "llol"> echo "ddsadas" > 1
+ 1152  cat 1
+ 1153  echo "hhh" > echo "llol" >> echo "ddsadas" > 1
+ 1154  cat 1
+ 1155  rm -rf 1
+ 1156  echo "hhhh"> 1
+ 1157  cat 1
+ 1158  echo "hhhh">> 1
+ 1159  cat 1
+ 1160  rm -rf 1
+ 1161  echo "hhhh">> echo "2" >> echo "3"
+ 1162  echo "hhhh">> echo "2" >> echo "3" >> 1
+ 1163  cat 1
+ 1164  echo "hhhh">> echo "2" >> echo "3" >> pwd >> 1
+ 1165  cat 1
+ 1166  wpd
+ 1167  pwd
+ 1168  cd ../../C/Users/Anonymos/Downloads/ChessGameInUnity-ProjectMaterials/ChessGame
+ 1169  pwd
+ 1170  cd ../../
+ 1171  cd c/Users/Anonymos/Downloads/ChessGameInUnity-ProjectMaterials/ChessGame
+ 1172  cd mnt/c/Users/Anonymos/Downloads/ChessGameInUnity-ProjectMaterials/ChessGame
+ 1173  ls
+ 1174  rm .sln
+ 1175  rm *.sln
+ 1176  clear
+ 1177  ls
+ 1178  ls -la
+ 1179  cd ProjectSettings/
+ 1180  ls
+ 1181  ls -la
+ 1182  rm *.csproj
+ 1183  cd ..
+ 1184  rm *.csproj
+ 1185  clear
+ 1186  ls
+ 1187  pwd
+ 1188  cd ../../../
+ 1189  pwd
+ 1190  cd Desktop/
+ 1191  cd /
+ 1192  cd home/senpai/CUBE/
+ 1193  ls
+ 1194  ./a.out 
+ 1195  ./a.out "d.cub"
+ 1196  clear
+ 1197  vi main.c 
+ 1198  make
+ 1199  ./a.out  
+ 1200  ./a.out "d.cub"
+ 1201  vi main.c 
+ 1202  clear
+ 1203  make
+ 1204  ./a
+ 1205  ./a.out "d.cub"
+ 1206  vi readme.txt
+ 1207  ls
+ 1208  fish
+ 1209  cd ../..//mnt/c/Users/Anonymos/Desktop/minishell
+ 1210  make
+ 1211  ./a.out 
+ 1212  make
+ 1213  ./a.out 
+ 1214  make
+ 1215  ./a.out 
+ 1216  ls
+ 1217  make
+ 1218  ./a.out 
+ 1219  ls
+ 1220  mv ./a.out ..
+ 1221  cd ..
+ 1222  ./a.out 
+ 1223  cd minishell/
+ 1224  ls
+ 1225  clar
+ 1226  clear
+ 1227  make
+ 1228  ./a.out 
+ 1229  make
+ 1230  ./a.out 
+ 1231  clear
+ 1232  make
+ 1233  ./a.out 
+ 1234  less env
+ 1235  env | less
+ 1236  unset PWD
+ 1237  make
+ 1238  ./a.out 
+ 1239  env | less
+ 1240  unset OLDPWD
+ 1241  env | less
+ 1242  make
+ 1243  ./a.out 
+ 1244  env | less
+ 1245  make
+ 1246  ./a.out 
+ 1247  echo $PATH_MAX
+ 1248  make
+ 1249  clear
+ 1250  cd ../ll
+ 1251  cd CUBE/
+ 1252  cat main.c 
+ 1253  cd CUBE/
+ 1254  cat main.c n
+ 1255  mpv
+ 1256  apt-get install mpv
+ 1257  sudo apt-get install mpv
+ 1258  apt-get install mpv
+ 1259  sudo apt-get install mpv
+ 1260  clear
+ 1261  ls
+ 1262  cd CUBE/
+ 1263  less main.c 
+ 1264  man system
+ 1265  man fork
+ 1266  man mpv
+ 1267  mpv --help
+ 1268  man fork
+ 1269  man system
+ 1270  export a=3
+ 1271  echo $a
+ 1272  $
+ 1273  $a
+ 1274  clear
+ 1275  export a = 3
+ 1276  export b=2 b=3
+ 1277  export b=2 b=0
+ 1278  echo $b
+ 1279  echo $a
+ 1280  export b=2 c=0
+ 1281  echo $c
+ 1282  echo $b
+ 1283  unset b c
+ 1284  echo $b
+ 1285  echo $c
+ 1286  export bc=2 bb=0
+ 1287  export bcb= 2 bbb=0
+ 1288  echo $bbb
+ 1289  export bcb = 2 bbb=0
+ 1290  echo $bbb
+ 1291  export w=e=r
+ 1292  echo w
+ 1293  echo $w
+ 1294  echo $42
+ 1295  unset 42
+ 1296  unset "42"
+ 1297  clear
+ 1298  export x=20
+ 1299  echo $x
+ 1300  unset x
+ 1301  echo $x
+ 1302  unset
+ 1303  make
+ 1304  ./a.out 
+ 1305  make
+ 1306  ./a.out 
+ 1307  make
+ 1308  ./a.out 
+ 1309  make
+ 1310  ./a.out 
+ 1311  make
+ 1312  ./a.out 
+ 1313  make
+ 1314  ./a.out 
+ 1315  make
+ 1316  ./a.out 
+ 1317  env > 1
+ 1318  clear
+ 1319  make
+ 1320  ./a.out 
+ 1321  make
+ 1322  ./a.out 
+ 1323  make
+ 1324  ./a.out 
+ 1325  clear
+ 1326  make
+ 1327  ./a.out 
+ 1328  clear
+ 1329  make
+ 1330  ./a.out 
+ 1331  make
+ 1332  ./a.out 
+ 1333  make
+ 1334  ./a.out 
+ 1335  clear
+ 1336  make
+ 1337  ./a.out 
+ 1338  make
+ 1339  ./a.out 
+ 1340  make
+ 1341  ./a.out 
+ 1342  clear
+ 1343  make
+ 1344  ./a.out 
+ 1345  clear
+ 1346  make
+ 1347  ./a.out 
+ 1348  make
+ 1349  ./a.out 
+ 1350  make
+ 1351  clear
+ 1352  ./a.out 
+ 1353  clear
+ 1354  ./a.out 
+ 1355  make
+ 1356  ./a.out 
+ 1357  make
+ 1358  ./a.out 
+ 1359  make
+ 1360  ./a.out 
+ 1361  make
+ 1362  ./a.out 
+ 1363  makke
+ 1364  make
+ 1365  clear
+ 1366  ./a.out 
+ 1367  vi Makefile 
+ 1368  make
+ 1369  ./a.out 
+ 1370  make
+ 1371  ./a.out 
+ 1372  make
+ 1373  ./a.out 
+ 1374  make
+ 1375  ./a.out 
+ 1376  make
+ 1377  ./a.out 
+ 1378  make
+ 1379  ake
+ 1380  make
+ 1381  ./a.out 
+ 1382  make
+ 1383  ./a.out 
+ 1384  make
+ 1385  ./a.out 
+ 1386  WSL_DISTRO_NAME
+ 1387  SET WSL_DISTRO_NAME
+ 1388  unset WSL_DISTRO_NAME
+ 1389  env
+ 1390  exit
+ 1391  man history
+ 1392  history > 1
