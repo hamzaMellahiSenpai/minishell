@@ -14,12 +14,8 @@
 
 t_string    shell_pwd()
 {
-	t_string	path;
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-			path = join(cwd, ">>> ");
-	else 
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		handle_error(GETCWD_FAIL, FAIL);
-	shell.output = join(shell.output, path);
-	return (path);
+	shell.output = join(shell.output, join(cwd, "\n"));
+	return (cwd);
 }

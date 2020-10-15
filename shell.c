@@ -44,7 +44,8 @@ void shell_loop(void)
   status = ft_strdup("");
   while (status)
   {
-    ft_putstr(shell.curr_dir);
+    //path = join(cwd, ">>> ");
+    ft_putstr(join(shell.curr_dir, ">>> "));
     read_line(STDIN, &line);
     if (!*line)
       return (event_handler(CTRL_D));    
@@ -52,25 +53,31 @@ void shell_loop(void)
     while(*cmds)
     {
       shell.output = ft_strdup("");
+
       x = split(*cmds ,'>');
+
       args = split(x[0], ' ');
+
       status = execute(args);
-      if (x[1])
-      {
-        y = split(x[1] ,' ');
-        if (!y[0] == '>')
-        {
+
+
+      ft_putstr(shell.output);
+      // if (x[1])
+      // {
+      //   // y = split(x[1] ,' ');
+      //   // if (!y[0] == '>')
+      //   // {
         
-        }
-        int fd = open(y[0],  O_CREAT | O_RDWR, S_IWUSR | S_IRUSR);
-        int len = ft_strlen(shell.output);
-        write(fd, shell.output, len);
-        shell.max_output_len = len > shell.max_output_len ? len : shell.max_output_len ;
-      }
-      else if (ft_strchr(*cmds, '>'))
-        ft_putstr("error: syntax error");
-      else
-        ft_putstr(shell.output);
+      //   // }
+      //   int fd = open(y[0],  O_CREAT | O_RDWR, S_IWUSR | S_IRUSR);
+      //   int len = ft_strlen(shell.output);
+      //   write(fd, shell.output, len);
+      //   shell.max_output_len = len > shell.max_output_len ? len : shell.max_output_len ;
+      // }
+      // else if (ft_strchr(*cmds, '>'))
+      //   ft_putstr("error: syntax error");
+      // else
+      //   ft_putstr(shell.output);
       cmds++;
     }
     //free_all();

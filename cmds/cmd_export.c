@@ -19,6 +19,7 @@ t_string     shell_export(t_string *args)
     t_string    key;
     int         index;
     j = 0;
+        printf("%s\n", args[j]);
     while (args[++j])
     {
         arg = split(args[j], '=');
@@ -29,14 +30,16 @@ t_string     shell_export(t_string *args)
         }
         key = arg[0];
         index = vector_find(&shell.env, key);
+        printf("%d\n", index);
+        printf("%s\n", ((t_string)vector_get(&shell.env, index)));
         if (!vector_get(&shell.env , index))
         {
             vector_push_back(&shell.env, args[j]);
-            index = shell.env.size - 2;
+            //index = shell.env.size - 2;
         }
         else
             vector_set(&shell.env, index, args[j]);
-            printf("%d\n", index);
+        printf("%d\n", index);
         printf("%s\n", ((t_string)vector_get(&shell.env, index)));
     }
     return "1";

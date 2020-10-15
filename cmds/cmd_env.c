@@ -18,7 +18,7 @@ t_string     shell_env(t_string *args)
 
   i = -1;
   #if DEBUG_MODE
-    printf("%d\n", shell.env.size);
+    //printf("%d\n", shell.env.size);
   #endif
   while(++i < shell.env.size - 1)
   {

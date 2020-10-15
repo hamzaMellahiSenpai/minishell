@@ -19,7 +19,7 @@ t_string    *init_cmds()
 {
     t_string    *cmds_str;
 
-	cmds_str = sf_malloc(sizeof(char*) * 9);
+	cmds_str = sf_malloc(sizeof(char*) * CMDS_COUNT);
     cmds_str[0] = "help";
     cmds_str[1] = "echo";
     cmds_str[2] = "pwd";
@@ -47,6 +47,5 @@ t_string (*cmds(int i))(char **args)
     builtin_func[7] = &shell_export;
     builtin_func[7] = &shell_history;
     builtin_func[8] = NULL;
-    //builtin_func[4] = NULL;
     return (builtin_func[i]);
 }

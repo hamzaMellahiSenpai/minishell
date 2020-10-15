@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 all:
-	gcc -g *.c */*.c */*/*.c -D L_C=N -fsanitize=address
+	gcc -g *.c */*.c */*/*.c #-D L_C=N -fsanitize=address
 fclean:clean
 clean:
 	rm -rf

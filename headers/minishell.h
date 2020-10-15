@@ -28,6 +28,7 @@
 #define UNCOMPLETED 1
 #define STDIN 0
 #define DEBUG_MODE 1
+#define CMDS_COUNT 10
 typedef char* t_string;
 
 
